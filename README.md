@@ -6,7 +6,7 @@ Basic Fastify implementation.
 Simply run `npm run start` to start the server at `localhost:3000`
 
 Docker scripts also included:
-* `docker compose up` in the root directory
+* `docker-compose build` and `docker-compose up` in the root directory
 
 
 ## Quickstart
