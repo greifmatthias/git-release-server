@@ -1,14 +1,14 @@
 'use strict';
 
 
-const healthcheck = require('./healthcheck');
+const ping = require('./ping');
 const v1 = require('./v1');
 
 
 
 const routers = [
   {
-    routes: healthcheck
+    routes: ping
   },
   {
     prefix: '/v1',
