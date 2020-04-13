@@ -1,12 +1,12 @@
 'use strict';
 
-const example = require('./example');
+const versions = require('./versions');
 
 
 
 const routes = [{
-  prefix: '/example',
-  routes: example
+  prefix: '/versions',
+  routes: versions
 }];
 
 
