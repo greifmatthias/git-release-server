@@ -2,6 +2,9 @@
 
 const app = require('./src');
 
+// Setup DotEnv
+require('dotenv').config();
+
 
 
 app()
