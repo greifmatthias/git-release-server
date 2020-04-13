@@ -1,6 +1,6 @@
 'use strict';
 
-const HealthCheckController = require('../controllers/healthcheck');
+const PingController = require('../controllers/ping');
 
 
 
@@ -8,20 +8,20 @@ const routes = (fastify, opts, next) => {
 
   fastify.route({
     method: 'GET',
-    url: '/',
+    url: '/ping',
     schema: {
       response: {
         200: {
           type: 'object',
           properties: {
-            status: {
+            message: {
               type: 'string'
             }
           }
         }
       }
     },
-    handler: HealthCheckController.index
+    handler: PingController.ping
   });
 
   next();
