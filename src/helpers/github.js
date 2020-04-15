@@ -56,15 +56,15 @@ class GitHubHelper {
 
 
 
-    async getReleasesAfter(version) {
+    async getReleasesAfter(releases, version) {
 
         // List all Releases for repo
-        const releases = await this.getReleases();
+        const outReleases = releases || await this.getReleases();
 
         // Filter out Released after version
-        const result = Object.keys(releases).filter(x => semver.gt(x, version));
+        const result = Object.keys(outReleases).filter(x => semver.gt(x, version));
 
-        return result;
+        return result.map(x => outReleases[x]);
     }
 }
 

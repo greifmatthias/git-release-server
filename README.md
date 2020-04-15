@@ -23,6 +23,12 @@ Or deploy on *Docker* with:
 * Available at `localhost:3000`
 
 ## Endpoints
-* `GET ~ /ping` simply returns a pong
+* `GET ~/ping` simply returns a pong
 
-* `GET ~ /v1/versions` lists all Releases
+* `GET ~/v1/versions` lists all Releases
+    * These results can be further reduced:
+        * `GET ~/v1/versions?after=...` will only return results of Releases after a version.**(\*)** -> eg. `...?after=0.0.1`
+
+
+## Side notes
+**(\*) Versions MUST be formatted according to the SemVer specifications, else sh\*\* may not work, also in the GitHub Release's TagName**

@@ -11,11 +11,16 @@ const VersionsController = {
   index: async (request, reply) => {
     try {
 
+      const { after } = request.query;
+
       // Setup GitHub
       const github = new GitHubHelper(process.env.GITHUB_TOKEN, process.env.GITHUB_USERNAME, process.env.GITHUB_REPO);
 
       // Get releases
-      const releases = await github.getReleases();
+      let releases = await github.getReleases();
+
+      // Check if need to narrow result
+      if (after) releases = await github.getReleasesAfter(releases, after);
 
       // Check result
       if (releases.length === 0) reply.code(204).send();

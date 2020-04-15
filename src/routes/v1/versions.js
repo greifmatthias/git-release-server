@@ -43,6 +43,9 @@ const routes = (fastify, opts, next) => {
     method: 'GET',
     url: '/',
     schema: {
+      query: {
+        after: { type: 'string' },
+      },
       response: {
         200: {
           type: 'array',
