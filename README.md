@@ -27,7 +27,7 @@ Or deploy on *Docker* with:
 
 * `GET ~/v1/versions` lists all Releases
     * These results can be further reduced:
-        * `GET ~/v1/versions?after=...` will only return results of Releases after a version.**(\*)** -> eg. `...?after=0.0.1`
+        * `GET ~/v1/versions?after={VERSION}` will only return results of Releases after a specific version. `{VERSION}` can be any string **(\*)** that acts as a minimum required version eg. `0.3.4` or `1.8.0-alpha`, ..
 
 
 ## Side notes
