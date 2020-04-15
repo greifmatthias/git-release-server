@@ -50,6 +50,10 @@ const routes = (fastify, opts, next) => {
             type: 'object',
             properties: releaseBody
           }
+        },
+        204: {
+          description: 'No Releases',
+          type: 'null'
         }
       }
     },

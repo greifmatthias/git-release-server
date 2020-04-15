@@ -1,5 +1,7 @@
 'use strict';
 
+var createError = require('http-errors')
+
 const GitHubHelper = require('../../helpers/github');
 
 
@@ -7,48 +9,38 @@ const GitHubHelper = require('../../helpers/github');
 const VersionsController = {
 
   index: async (request, reply) => {
+    try {
 
-    // Setup GitHub
-    const github = new GitHubHelper(process.env.GITHUB_TOKEN);
+      // Setup GitHub
+      const github = new GitHubHelper(process.env.GITHUB_TOKEN, process.env.GITHUB_USERNAME, process.env.GITHUB_REPO);
 
-    // Get releases
-    const releases = await github.getReleases(process.env.GITHUB_USERNAME, process.env.GITHUB_REPO);
+      // Get releases
+      const releases = await github.getReleases();
 
-    // Map result
-    const output = releases.map(release => {
+      // Check result
+      if (releases.length === 0) reply.code(204).send();
 
-      // Get release props
-      const { id, html_url, tag_name, name, body, prerelease, created_at, published_at, assets } = release;
+      // Map result
+      const output = Object.keys(releases).map(release => {
 
-      return {
-        id,
-        url: html_url,
-        tag: tag_name,
-        name,
-        description: body,
-        isPrerelease: prerelease,
-        createdAt: new Date(created_at),
-        publishedAt: new Date(published_at),
+        const { url, tag, name, isPrerelease, publishedAt, assets } = releases[release];
 
-        assets: assets.map(asset => {
+        return {
+          url, tag, name, isPrerelease, publishedAt,
+          assets: assets.map(({ name, size, downloadUrl }) => ({ name, size, downloadUrl }))
+        };
+      });
 
-          // Get asset props
-          const { id, name, size, download_count, created_at, updated_at, browser_download_url } = asset;
 
-          return {
-            id,
-            name,
-            size,
-            downloadCount: download_count,
-            createdAt: created_at,
-            updatedAt: updated_at,
-            downloadUrl: browser_download_url
-          }
-        })
-      }
-    })
+      reply.send(output);
 
-    reply.send(output);
+    } catch ({ status, message }) {
+
+      const err = createError(status || 500);
+      err.message = 'Could not list Releases';
+
+      return err;
+    }
   },
 
   get: (request, reply) => {
