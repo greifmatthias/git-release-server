@@ -1,16 +1,14 @@
-# Fastify-base
-Basic Fastify implementation.
-
+# GitHub Release Server
 
 ## Setup
-Simply run `npm run start` to start the server at `localhost:3000`
+1. `npm i`
+1. Create `.env` file in root of project:
+    * GITHUB_TOKEN: Generate a token on GitHub under `Developer Settings/Personal Access Tokens` with the repo scope enabled
+    * GITHUB_USERNAME: Owner of the Github Repo
+    * GITHUB_REPO: Repository to target
+1. `npm run start`
 
-Docker scripts also included:
-* `docker-compose build`
-* `docker-compose up`
-* Available at `localhost:3000`
+## Endpoints
+* /ping ~ Just returns a pong
 
-## Quickstart
-* Routes are defined in `./routes`
-* Response handling for routes are defined in `./controllers`
-* Sample use for Plugin in `./plugins`
+* /versions ~ Lists all the Releases
