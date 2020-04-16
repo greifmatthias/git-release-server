@@ -9,8 +9,9 @@ You should make a `.env` in the root of the project:
 * GITHUB_TOKEN: Generate a token on GitHub under `Developer Settings/Personal Access Tokens` with the repo scope enabled
 * GITHUB_USERNAME: Owner of the Github repository to target
 * GITHUB_REPO: Repository to target
+* PORT: (optional) specifies the port the API will be available at, default is 3000
 ---
-If you intend to run on *Docker*, these vars can also be set in the `docker-compose` file
+If you intend to run on *Docker*, these vars can also be set in the `docker-compose` file. If you specified a different port, keep in mind to also change those vars at `docker-compose.yml` and `Dockerfile` 
 
 ### Run API
 *Localhost*
