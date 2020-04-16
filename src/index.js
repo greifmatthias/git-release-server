@@ -8,8 +8,6 @@ const Router = require('./helpers/router');
 
 const routes = require('./routes');
 
-const GitHubHelper = require('./helpers/github');
-
 
 
 module.exports = (port) => {

@@ -3,6 +3,9 @@
 const { Octokit } = require("@octokit/rest");
 const semver = require('semver');
 
+const Release = require('../models/release.model');
+
+
 
 class GitHubHelper {
 
@@ -25,30 +28,16 @@ class GitHubHelper {
 
 
 
-    async getReleases() {
+    // Get all Releases
+    async list() {
 
         // List all Releases for repo
-        const result = await this.octokit.repos.listReleases(this.target);
+        let result = await this.octokit.repos.listReleases(this.target);
 
         // Map result
         const releases = {};
 
-        result.data.forEach(({ id, html_url, tag_name, name, body, prerelease, created_at, published_at, assets }) => {
-
-            releases[tag_name] = {
-                id,
-                url: html_url,
-                tag: tag_name,
-                name,
-                description: body,
-                isPrerelease: prerelease,
-                createdAt: new Date(created_at),
-                publishedAt: new Date(published_at),
-
-                assets: assets.map(({ id, name, size, download_count, created_at, updated_at, browser_download_url }) =>
-                    ({ id, name, size, downloadCount: download_count, createdAt: created_at, updatedAt: updated_at, downloadUrl: browser_download_url }))
-            }
-        });
+        result.data.forEach(x => releases[x.tag_name] = Release.parseGitHub(x));
 
 
         return releases;
@@ -56,15 +45,46 @@ class GitHubHelper {
 
 
 
-    async getReleasesAfter(releases, version) {
+    // Get all Releases after a specific version
+    async listAfter(version, releases) {
 
         // List all Releases for repo
-        const outReleases = releases || await this.getReleases();
+        const outReleases = releases || await this.list();
 
         // Filter out Released after version
         const result = Object.keys(outReleases).filter(x => semver.gt(x, version));
 
+
         return result.map(x => outReleases[x]);
+    }
+
+
+
+    // Get Release by TagName
+    async get(tagname, releases) {
+
+        // List all Releases for repo
+        const outReleases = releases || await this.list();
+
+        // Filter out Released after version
+        const release = outReleases[tagname];
+
+
+        return release;
+    }
+
+
+
+    // Get the latest Release
+    async getLatest(releases) {
+
+        // List all Releases for repo
+        const outReleases = releases || await this.list();
+
+        // Get latest
+        const release = Object.keys(outReleases).reduce((a, b) => semver.gt(a, b) ? a : b);
+
+        return outReleases[release];
     }
 }
 
