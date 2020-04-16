@@ -16,20 +16,24 @@ If you intend to run on *Docker*, these vars can also be set in the `docker-comp
 ### Run API
 *Localhost*
 1. `npm i`
-1. Simply run `npm run start` to start the server at `localhost:3000`
+1. Simply run `npm run start` to start the server at `localhost:3000` (default)
 ---
 Or deploy on *Docker* with:
 * `docker-compose build`
 * `docker-compose up`
-* Available at `localhost:3000`
+* Available at `localhost:3000` (default)
 
 ## Endpoints
 * `GET ~/ping` simply returns a pong
 
 * `GET ~/v1/versions` lists all Releases
     * These results can be further reduced:
-        * `GET ~/v1/versions?after={VERSION}` will only return results of Releases after a specific version. `{VERSION}` can be any string **(\*)** that acts as a minimum required version eg. `0.3.4` or `1.8.0-alpha`, ..
+        * `GET ~/v1/versions?after={VERSION}` will only return results of Releases after a specific version. `{VERSION}` can be any string **(\*)** that acts as a minimum required version
+            * eg. `GET ~/v1/versions?after=0.3.4`
+        * `GET ~/v1/versions/{VERSION}` will return details for a Release, with a specific version
+            * eg. `GET ~/v1/versions/0.3.4`
+        * `GET ~/v1/versions/latest` will return details for the latest Release (this cannot and should not point to a Release version because this is not a SemVer)
 
 
 ## Side notes
-**(\*) Versions MUST be formatted according to the SemVer specifications, else sh\*\* may not work, also in the GitHub Release's TagName**
+**(\*) Versions (those used to query, and used as GitHub Release tagnames) MUST be formatted according to the SemVer specifications, else sh\*\* may not work**
