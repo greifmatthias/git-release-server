@@ -1,11 +1,12 @@
 'use strict';
 
-const VersionsController = require('../../controllers/v1/versions');
-
+const ReleasesController = require('../../controllers/v1/releases');
 const Release = require('../../models/release.model');
 
 
+
 const routes = (fastify, opts, next) => {
+
 
   fastify.route({
     method: 'GET',
@@ -16,10 +17,12 @@ const routes = (fastify, opts, next) => {
       },
       response: {
         200: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: Release.getSchema()
+          type: 'object',
+          "patternProperties": {
+            ".*": {
+                type: 'object',
+                properties: Release.getSchema()
+            }
           }
         },
         204: {
@@ -28,14 +31,14 @@ const routes = (fastify, opts, next) => {
         }
       }
     },
-    handler: VersionsController.index
+    handler: ReleasesController.index
   });
 
 
 
   fastify.route({
     method: 'GET',
-    url: '/:id',
+    url: '/:release',
     schema: {
       response: {
         200: {
@@ -44,8 +47,9 @@ const routes = (fastify, opts, next) => {
         }
       }
     },
-    handler: VersionsController.get
+    handler: ReleasesController.get
   });
+
 
 
   next();

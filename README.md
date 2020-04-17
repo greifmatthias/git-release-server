@@ -26,14 +26,13 @@ Or deploy on *Docker* with:
 ## Endpoints
 * `GET ~/ping` simply returns a pong
 
-* `GET ~/v1/versions` lists all Releases
+* `GET ~/v1/releases` lists all Releases
     * These results can be further reduced:
-        * `GET ~/v1/versions?after={VERSION}` will only return results of Releases after a specific version. `{VERSION}` can be any string **(\*)** that acts as a minimum required version
-            * eg. `GET ~/v1/versions?after=0.3.4`
-        * `GET ~/v1/versions/{VERSION}` will return details for a Release, with a specific version
-            * eg. `GET ~/v1/versions/0.3.4`
-        * `GET ~/v1/versions/latest` will return details for the latest Release (this cannot and should not point to a Release version because this is not a SemVer)
+        * `GET ~/v1/releases?after={VERSION}` will only return results of Releases after a specific version. `{VERSION}` can be any string **(\*)** that acts as a minimum required version
+            * eg. `GET ~/v1/releases?after=0.3.4`
+        * `GET ~/v1/releases/{VERSION}` will return details for a Release, with a specific version
+            * eg. `GET ~/v1/releases/0.3.4`
+        * `GET ~/v1/releases/latest` will return details for the latest Release (this cannot and should not point to a Release version because this is not a SemVer)
 
-
-## Side notes
+---
 **(\*) Versions (those used to query, and used as GitHub Release tagnames) MUST be formatted according to the SemVer specifications, else sh\*\* may not work**

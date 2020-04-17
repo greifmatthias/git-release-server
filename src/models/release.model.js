@@ -9,7 +9,6 @@ module.exports = {
 
         id: { type: 'string' },
         url: { type: 'string' },
-        tag: { type: 'string' },
         name: { type: 'string' },
         description: { type: 'string' },
         isPrerelease: { type: 'boolean' },
@@ -33,11 +32,10 @@ module.exports = {
 
 
     // Parse Release from GitHub Response
-    parseGitHub: ({ id, html_url, tag_name, name, body, prerelease, created_at, published_at, assets }) => ({
+    parseGitHub: ({ id, html_url, name, body, prerelease, created_at, published_at, assets }) => ({
 
         id,
         url: html_url,
-        version: tag_name,
         name,
         description: body,
         isPrerelease: prerelease,
