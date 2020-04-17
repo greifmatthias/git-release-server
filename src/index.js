@@ -25,6 +25,7 @@ module.exports = (port) => {
     app.ready(() => Router.dumpRoute(app));
 
     app.listen(port || process.env.PORT || 3000, process.env.HOST_URL || '127.0.0.1', (err) => {
+      
       if (err) return reject(err);
 
       resolve(app);

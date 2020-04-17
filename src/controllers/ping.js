@@ -6,7 +6,7 @@ const PingController = {
 
   ping: (request, reply) => {
 
-    reply.code(200).send({
+    reply.send({
       message: 'pong'
     });
   }
