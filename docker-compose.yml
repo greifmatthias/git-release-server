@@ -6,6 +6,6 @@ services:
       - "3000:3000"
     environment:
         - HOST_URL=0.0.0.0
-        - GITHUB_TOKEN=82a21e35a9a06626db8fbc82f30871f82bdae8e0
-        - GITHUB_USERNAME=greifmatthias
-        - GITHUB_REPO=camp_v2
+        - GITHUB_TOKEN=
+        - GITHUB_USERNAME=
+        - GITHUB_REPO=
