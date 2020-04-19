@@ -40,7 +40,7 @@ class GitHubHelper {
         // Map result
         const releases = {};
         result.data.forEach(x =>
-            releases[x.tag_name] = Release.parseGitHub(x));
+            releases[semver.clean(x.tag_name)] = Release.parseGitHub(x));
 
 
         return releases;
@@ -99,35 +99,29 @@ class GitHubHelper {
 
 
 
-    
+
 
     // Get a specific Asset
-    async getAssets(releases, platform, environment, dist, version) {
-        
+    async getAssets(releases, arch, platform, dist, version) {
+
         // Check if Release has right Asset
         const assets = {};
-        
         Object.keys(releases).forEach(release => assets[release] = releases[release].assets.filter(asset => {
 
             const { name } = asset;
-            const ext = path.extname(name).replace('.', '');
-
-            // Check if extension of Asset can be linked to environment
-            const assetEnv = Machine.getExtensions()[ext];
-
 
             return (
-                (version ? name.includes(version) : true) &&            // Check if file is for current Release (version)
-                assetEnv === environment &&                             // Check if file is for requested environment (osx, win, ..)
-                (dist ? dist === ext : true) &&                         // Check if specific dist is set, then compare with extension (deb, rpm, ..)
-                name.includes(platform.replace('x', ''))                // Check if file is for platform (64, arm, ..)
+                (version ? name.includes(version) : true) &&                    // Check if file is for current Release (version)
+                (platform ? asset.platform === platform : true) &&              // Check if file is for requested environment (osx, win, ..)
+                (dist ? dist === asset.dist : true) &&                          // Check if specific dist is set, then compare with extension (deb, rpm, ..)
+                (arch && asset.arch ? asset.arch === arch : true)               // Check if file is for platform (64, arm, ..)
             );
         }));
 
         // Remove Releases without assets
-        Object.keys(assets).forEach(x => { if(assets[x].length === 0) delete assets[x]; });
+        Object.keys(assets).forEach(x => { if (assets[x].length === 0) delete assets[x]; });
 
-        
+
         return assets;
     }
 
@@ -140,7 +134,7 @@ class GitHubHelper {
     //             accept: 'application/octet-stream',
     //         }
     //     });
-        
+
     //     return new Promise((resolve, reject) =>
     //         fetch(targeturl.url, {
     //             headers: {
