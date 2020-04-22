@@ -72,7 +72,7 @@ class GitHubHelper {
         const output = releases || await this.list();
 
 
-        return output[name];
+        return ({ [semver.parse(name)]: output[name] });
     }
 
 
@@ -87,7 +87,7 @@ class GitHubHelper {
         const version = Object.keys(output).reduce((a, b) => semver.gt(a, b) ? a : b);
 
 
-        return output[version];
+        return ({ [version]: output[version] });
     }
 
 
@@ -106,7 +106,7 @@ class GitHubHelper {
 
         // Check if Release has right Asset
         const assets = {};
-        Object.keys(releases).forEach(release => assets[release] = releases[release].assets.filter(asset => {
+        Object.keys(releases).sort((a, b) => semver.gt(a, b) ? -1 : 1).forEach(release => assets[release] = releases[release].assets.filter(asset => {
 
             const { name } = asset;
 
@@ -114,35 +114,35 @@ class GitHubHelper {
                 (version ? name.includes(version) : true) &&                    // Check if file is for current Release (version)
                 (platform ? asset.platform === platform : true) &&              // Check if file is for requested environment (osx, win, ..)
                 (dist ? dist === asset.dist : true) &&                          // Check if specific dist is set, then compare with extension (deb, rpm, ..)
-                (arch && asset.arch ? asset.arch === arch : true)               // Check if file is for platform (64, arm, ..)
+                (arch ? asset.arch === arch : true)                             // Check if file is for platform (64, arm, ..)
             );
         }));
 
         // Remove Releases without assets
         Object.keys(assets).forEach(x => { if (assets[x].length === 0) delete assets[x]; });
 
-
+        
         return assets;
     }
 
 
-    // downloadAsset(id) {
+    async downloadAsset(id) {
 
-    //     const targeturl = await fetch(`https://api.github.com/repos/${this.target.owner}/${this.target.repo}/releases/assets/${id}`, {
-    //         headers: {
-    //             authorization: `token ${process.env.GITHUB_TOKEN}`,
-    //             accept: 'application/octet-stream',
-    //         }
-    //     });
+        const targeturl = await fetch(`https://api.github.com/repos/${this.target.owner}/${this.target.repo}/releases/assets/${id}`, {
+            headers: {
+                authorization: `token ${process.env.GITHUB_TOKEN}`,
+                accept: 'application/octet-stream',
+            }
+        });
 
-    //     return new Promise((resolve, reject) =>
-    //         fetch(targeturl.url, {
-    //             headers: {
-    //                 accept: 'application/octet-stream',
-    //             }
-    //         }).then(x => x.buffer()).then(x => resolve(x))
-    //     );
-    // };
+        return new Promise((resolve, reject) =>
+            fetch(targeturl.url, {
+                headers: {
+                    accept: 'application/octet-stream',
+                }
+            }).then(x => x.buffer()).then(x => resolve(x))
+        );
+    };
 }
 
 

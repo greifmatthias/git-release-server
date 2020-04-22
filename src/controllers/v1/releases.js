@@ -74,7 +74,6 @@ const ReleasesController = {
 
 
       return reply.send(result);
-
     } catch ({ status, message }) {
 
       console.log(message)

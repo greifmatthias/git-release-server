@@ -43,7 +43,12 @@ const routes = (fastify, opts, next) => {
       response: {
         200: {
           type: 'object',
-          properties: Release.getSchema()
+          "patternProperties": {
+            ".*": {
+                type: 'object',
+                properties: Release.getSchema()
+            }
+          }
         }
       }
     },
