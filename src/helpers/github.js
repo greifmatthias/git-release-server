@@ -102,7 +102,7 @@ class GitHubHelper {
 
 
     // Get a specific Asset
-    async getAssets(releases, arch, platform, dist, version) {
+    async getAssets(releases, platform, dist, arch, version) {
 
         // Check if Release has right Asset
         const assets = {};
@@ -113,7 +113,7 @@ class GitHubHelper {
             return (
                 (version ? name.includes(version) : true) &&                    // Check if file is for current Release (version)
                 (platform ? asset.platform === platform : true) &&              // Check if file is for requested environment (osx, win, ..)
-                (dist ? dist === asset.dist : true) &&                          // Check if specific dist is set, then compare with extension (deb, rpm, ..)
+                (dist ? asset.dist === dist : true) &&                          // Check if specific dist is set, then compare with extension (deb, rpm, ..)
                 (arch ? asset.arch === arch : true)                             // Check if file is for platform (64, arm, ..)
             );
         }));

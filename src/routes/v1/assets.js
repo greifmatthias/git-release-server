@@ -13,8 +13,8 @@ const routes = (fastify, opts, next) => {
     url: '/',
     schema: {
       query: {
+        arch: { type: 'string' },
         platform: { type: 'string' },
-        environment: { type: 'string' },
         dist: { type: 'string' }
       },
       response: {
@@ -46,9 +46,10 @@ const routes = (fastify, opts, next) => {
     url: '/:release',
     schema: {
       query: {
+        arch: { type: 'string' },
         platform: { type: 'string' },
-        environment: { type: 'string' },
-        dist: { type: 'string' }
+        dist: { type: 'string' },
+        output: { type:'string' }
       },
       rresponse: {
         200: {

@@ -7,9 +7,10 @@ module.exports = {
 
         return {
 
-            'x86': '32 bit',
-            'x64': '64 bit',
-            'arm': 'ARM'
+            'x86_64': 'x64',
+            'x86': 'x86',
+            'x64': 'x64',
+            'amd64': 'x64'
         };
     },
 
@@ -20,9 +21,10 @@ module.exports = {
 
         return {
 
-            'osx': 'Mac/osX',
-            'linux': 'Linux',
-            'win': 'Windows'
+            'osx': 'osx',
+            'mac': 'osx',
+            'linux': 'linux',
+            'win': 'windows'
         };
     },
 
