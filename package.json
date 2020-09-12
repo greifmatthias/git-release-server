@@ -16,7 +16,7 @@
     "fastify": "3.1.1",
     "fastify-routes": "2.0.3",
     "http-errors": "1.7.3",
-    "node-fetch": "2.6.0",
+    "node-fetch": "2.6.1",
     "semver": "7.3.2"
   },
   "devDependencies": {
