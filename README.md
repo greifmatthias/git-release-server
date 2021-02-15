@@ -34,5 +34,14 @@ Or deploy on *Docker* with:
             * eg. `GET ~/v1/releases/0.3.4`
         * `GET ~/v1/releases/latest` will return details for the latest Release (this cannot and should not point to a Release version because this is not a SemVer)
 
+
+*NOTE: To make this work, Assets need to contain this information, for this we use the semver spec: {LABEL}-{VERSION}-{PLATFORM}-{ARCHITECTURE}.{EXTENSION} eg.: AwesomeApp-7.1.1-win-x86_64.exe, AnotherApp-4.5.0-alpha-osx.dmg, CoolApp-v1.2.1-linux-x86.deb*
+* `GET ~/v1/assets` lists all Assets. These Assets are grouped by the Release in semver-format. When a Release has no Assets (default or with filtering), this Release will not be displayed.
+    * These results can be further reduced:
+        * `GET ~/v1/assets?platform={PLATFORM}` will only list Assets for a specific platform: osx, win, linux.
+        * `GET ~/v1/assets?dist={DISTRIBUTION}` will filter Assets by a specific distribution. This parameter is mainly intended to support listings for a specific Linux distribution. Officially ossible values: dmg, exe, snap, deb, rpm, appimage. But all extensions can be used, it will be compared to the extension of the Asset.
+        * `GET ~/V1/ASSETS?arch={ARCHITECTURE}` will filter Assets by there architecture: x86, x64.
+
+
 ---
 **(\*) Versions (those used to query, and used as GitHub Release tagnames) MUST be formatted according to the SemVer specifications, else sh\*\* may not work**

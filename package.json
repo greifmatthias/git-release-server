@@ -7,19 +7,20 @@
     "name": "Greif Matthias"
   },
   "scripts": {
-    "start": "nodemon ./server.js"
+    "start": "nodemon ./server.js",
+    "update": "npx npm-check-updates -u && npm i"
   },
   "dependencies": {
-    "@octokit/rest": "17.3.0",
+    "@octokit/rest": "18.1.1",
     "dotenv": "8.2.0",
-    "eslint": "6.8.0",
-    "fastify": "2.13.1",
-    "fastify-routes": "2.0.3",
-    "http-errors": "1.7.3",
-    "node-fetch": "2.6.0",
-    "semver": "7.3.2"
+    "eslint": "7.20.0",
+    "fastify": "3.12.0",
+    "fastify-routes": "3.0.1",
+    "http-errors": "1.8.0",
+    "node-fetch": "2.6.1",
+    "semver": "7.3.4"
   },
   "devDependencies": {
-    "nodemon": "2.0.3"
+    "nodemon": "2.0.7"
   }
 }
